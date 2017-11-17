@@ -31,7 +31,7 @@ for i=1:200
         H=mu*eye(n)+2*K;
 %         H=(H+H')/2;
         ff=beta/2*all'-2*K(:,ij)-mu*E(:,ij);
-        Z(:,ij)=H\(-ff);
+        Z(:,ij)=.5*H\(-ff);
         % we use the free package to solve quadratic equation: http://sigpromu.org/quadprog/index.html
 %         [Z(:,ij),err,lm] = qpas(H,ff,[],[],[],[],zeros(n,1),[]);
         % Z(:,ij)=quadprog(H,(beta/2*all'-2*K(:,ij))',[],[],ones(1,n),1,zeros(n,1),ones(n,1),Z(:,ij),options);
@@ -39,46 +39,4 @@ for i=1:200
     Z=Z-diag(diag(Z));
     Z(find(Z<0))=0;
     
-    Y1=Y1+mu*(W-Z);
-    mu=mu*1.1;
-    Z= (Z+Z')/2;
-    D = diag(sum(Z));
-    L = D-Z;
-    [F,out]= solveF(F, @fun1,opts,gamma/beta,Y,Q,L);
-    
-    [a b d]=svd(F'*Y);
-    Q=a*d';
-    
-    Y=zeros(n,c);
-    
-    for ji=1:n
-        P=F*Q;
-        [v,j]=max(P(ji,:));
-        Y(ji,j)=1;
-        l(ji)=j;
-    end
-    
-    
-    if((i>1)&(norm(Z-W,'fro') < norm(Z,'fro') * 1e-3))
-        break
-    end
-end
-[result] = ClusteringMeasure(l,s);
-    function [F,G]=fun1(P,alpha,Y,Q,L)
-        G=2*L*P-2*alpha*Y*Q';
-        F=trace(P'*L*P)+alpha*norm(Y-P*Q,'fro');
-    end
-
-    function [F,G]=fun2(Q,P,Y)
-        G=-2*P'*Y+2*Q;
-        F=norm(Y-P*Q,'fro');
-    end
-
-
-
-end
-function [all]=veccomp2(ij,n,F)
-for ji=1:n
-    all(ji)=norm(F(ij,:)-F(ji,:));
-end
-end
+    Y1=Y1+mu*(W
