@@ -36,7 +36,7 @@ for i=1:200
         H=mu*eye(n)+2*K;
 %         H=(H+H')/2;
         ff=beta/2*all'-2*K(:,ij)-mu*E(:,ij);
-        Z(:,ij)=H\(-ff);
+        Z(:,ij)=.5*H\(-ff);
         % we use the free package to solve quadratic equation: http://sigpromu.org/quadprog/index.html
 %         [Z(:,ij),err,lm] = qpas(H,ff,[],[],ones(1,n),1,zeros(n,1),ones(n,1));
     end
