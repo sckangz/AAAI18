@@ -28,6 +28,7 @@ for i=1:200
     E=W+Y1/mu;
     parfor ij=1:n
         [all]=veccomp2(ij,n,F);
+        all=all.*all;
         H=mu*eye(n)+2*K;
 %         H=(H+H')/2;
         ff=beta/2*all'-2*K(:,ij)-mu*E(:,ij);
