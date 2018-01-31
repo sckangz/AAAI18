@@ -86,7 +86,7 @@ end
     end
     function [all]=veccomp2(ij,n,F)
         for ji=1:n
-            all(ji)=norm(F(ij,:)-F(ji,:));
+            all(ji)=(norm(F(ij,:)-F(ji,:)))^2;
         end
     end
 
